@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 
-router.get('/', async (req, res)=> {
+router.get('/getAll', async (req, res)=> {
  try{
      const posts = await Post.find();
+     console.log('called');
      res.json(posts);
  }catch(err){
      res.json({message:err});
  }
 });
 
-router.post('/', async (req, res) => {
+router.post('/posts', async (req, res) => {
  const post = new Post({
      name: req.body.name,
      unternehmen: req.body.unternehmen,
@@ -24,6 +25,7 @@ router.post('/', async (req, res) => {
      auswirkungenTechnik: req.body.auswirkungenMensch
  });
  try{
+    
      const savedPost = await post.save();
      res.json(savedPost);
  }catch(err){
@@ -40,6 +42,8 @@ router.get('/:postId', async (req, res)=> {
         res.json({message: err});
     }
 });
+
+
 
 //Delete a Specific Post
 router.delete('/:postId', async (req, res)=> {
