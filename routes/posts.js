@@ -1,6 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb){
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({storage: storage, limits:{
+    fileSize: 1024 * 1024 * 5
+}});
+
 
 router.get('/getAll', async (req, res)=> {
  try{
@@ -12,16 +27,17 @@ router.get('/getAll', async (req, res)=> {
  }
 });
 
-router.post('/posts', async (req, res) => {
- const post = new Post({
+router.post('/posts', upload.single('unternehmen'), async (req, res) => {
+ //console.log(req.file);
+    const post = new Post({
      name: req.body.name,
-     unternehmen: req.body.unternehmen,
+     unternehmen: req.file.path,
      kurzbeschreibung: req.body.kurzbeschreibung,
      reifegrad: req.body.reifegrad,
      nutzenversprechen: req.body.nutzenversprechen,
      herausforderungen: req.body.herausforderungen,
      auswirkungenMensch: req.body.auswirkungenMensch,
-     auswirkungenOrganisation: req.body.auswirkungenMensch,
+     auswirkungenOrganisation: req.body.auswirkungenMensch, 
      auswirkungenTechnik: req.body.auswirkungenMensch
  });
  try{
@@ -56,15 +72,15 @@ router.delete('/:postId', async (req, res)=> {
 });
 
 //Update a Specific Post
-// router.patch('/:postId', async (req, res)=> {
-//     try{
-//         const updatePost = await Post.updateOne({_id: req.params.postId}, 
-//             { $set: {title: req.body.title}
-//         });
-//         res.json(updatePost);
-//     }catch(err){
-//         res.json({message: err});
-//     }
-// });
+router.patch('/:postId', async (req, res)=> {
+    try{
+        const updatePost = await Post.updateOne({_id: req.params.postId}, 
+            { $set: {title: req.body.title}
+        });
+        res.json(updatePost);
+    }catch(err){
+        res.json({message: err});
+    }
+});
 
 module.exports = router;

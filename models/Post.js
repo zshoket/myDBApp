@@ -37,7 +37,7 @@ const PostSchema = mongoose.Schema({
             type: String
           }
       ],
-      required: true
+      //required: true
     },
     nutzenversprechen: {
         type: Array,
@@ -52,7 +52,7 @@ const PostSchema = mongoose.Schema({
             type: String
           }
       ],
-      required: true
+      //required: true
     },
     herausforderungen: {
         type: Array,
@@ -67,7 +67,7 @@ const PostSchema = mongoose.Schema({
             type: String
           }
         ],
-        required: true
+        //required: true
     },
     auswirkungenMensch: {
         type: Array,
@@ -79,7 +79,7 @@ const PostSchema = mongoose.Schema({
             type: String
           }
         ],
-        required: true
+        //required: true
     },
     auswirkungenOrganisation: {
         type: Array,
@@ -94,7 +94,7 @@ const PostSchema = mongoose.Schema({
             type: String
           }
         ],
-        required: true
+        //required: true
     },
     auswirkungenTechnik: {
       type: Array,
