@@ -9,6 +9,10 @@ const PostSchema = mongoose.Schema({
       type: String,
       required: true
     },
+    dimension: {
+      type: String,
+      required: true
+    },
     kurzbeschreibung: {
         type: Array,
         items: [
@@ -38,6 +42,20 @@ const PostSchema = mongoose.Schema({
           }
       ],
       //required: true
+    },
+    einordnungKette: {
+      type: Array,
+      items: [
+        {
+          type: String
+        },
+        {
+          type: String
+        },
+        {
+          type: String
+        }
+      ],
     },
     nutzenversprechen: {
         type: Array,
@@ -69,7 +87,7 @@ const PostSchema = mongoose.Schema({
         ],
         //required: true
     },
-    auswirkungenMensch: {
+    veränderungenMensch: {
         type: Array,
         items: [
           {
@@ -81,7 +99,7 @@ const PostSchema = mongoose.Schema({
         ],
         //required: true
     },
-    auswirkungenOrganisation: {
+    veränderungenOrganisation: {
         type: Array,
         items: [
           {
@@ -96,7 +114,7 @@ const PostSchema = mongoose.Schema({
         ],
         //required: true
     },
-    auswirkungenTechnik: {
+    veränderungenTechnologie: {
       type: Array,
       items: [
         {

@@ -12,6 +12,9 @@ const storage = multer.diskStorage({
     }
 });
 
+
+
+
 const upload = multer({storage: storage, limits:{
     fileSize: 1024 * 1024 * 5
 }});
@@ -20,8 +23,10 @@ const upload = multer({storage: storage, limits:{
 router.get('/getAll', async (req, res)=> {
  try{
      const posts = await Post.find();
-     console.log('called');
+     const fileid  = req.params;
+     res.sendFile(__dirname + /uploads/ + fileid); 
      res.json(posts);
+     //console.log('called');
  }catch(err){
      res.json({message:err});
  }
@@ -32,18 +37,21 @@ router.post('/posts', upload.single('unternehmen'), async (req, res) => {
     const post = new Post({
      name: req.body.name,
      unternehmen: req.file.path,
+     dimension: req.body.dimension,
+     einordnungKette: req.body.einordnungKette,
      kurzbeschreibung: req.body.kurzbeschreibung,
      reifegrad: req.body.reifegrad,
      nutzenversprechen: req.body.nutzenversprechen,
      herausforderungen: req.body.herausforderungen,
-     auswirkungenMensch: req.body.auswirkungenMensch,
-     auswirkungenOrganisation: req.body.auswirkungenMensch, 
-     auswirkungenTechnik: req.body.auswirkungenMensch
+     veränderungenMensch: req.body.veränderungenMensch,
+     veränderungenOrganisation: req.body.veränderungenOrganisation, 
+     veränderungenTechnologie: req.body.veränderungenTechnologie
+
  });
  try{
-    
      const savedPost = await post.save();
      res.json(savedPost);
+     //res.send(req.file);
  }catch(err){
      res.json({message: err});
  }  
@@ -75,7 +83,8 @@ router.delete('/:postId', async (req, res)=> {
 router.patch('/:postId', async (req, res)=> {
     try{
         const updatePost = await Post.updateOne({_id: req.params.postId}, 
-            { $set: {title: req.body.title}
+            { $set: {path: req.file.path
+            }
         });
         res.json(updatePost);
     }catch(err){
