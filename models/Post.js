@@ -5,7 +5,7 @@ const PostSchema = mongoose.Schema({
       type: String,
       required: true
     },
-    unternehmen: {
+    unternehmen_id: {
       type: String,
       required: true
     },
