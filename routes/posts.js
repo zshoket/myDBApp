@@ -32,11 +32,13 @@ router.get('/getAll', async (req, res)=> {
  }
 });
 
-router.post('/posts', upload.single('unternehmen'), async (req, res) => {
+router.post('/posts', upload.single('unternehmen_id'), async (req, res) => {
  //console.log(req.file);
+    Post.init()
     const post = new Post({
+    _id: new mongoose.Schema.Types.ObjectId(),
      name: req.body.name,
-     unternehmen: req.file.path,
+     unternehmen_id: req.file.path,
      dimension: req.body.dimension,
      einordnungKette: req.body.einordnungKette,
      kurzbeschreibung: req.body.kurzbeschreibung,

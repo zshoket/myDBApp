@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require ('body-parser');
+const morgan = require("morgan");
 
 require('dotenv/config')
 
@@ -14,8 +15,12 @@ app.use(bodyParser.json());
 
 //import routes
 const postsRoute = require ('./routes/posts');
+const productRoutes = require("./routes/products");
+const orderRoutes = require("./routes/orders");
 
 app.use('/posts', postsRoute);
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
 
 // app.get('/', (req, res)=> {
 //     res.send('We are on Home');
@@ -31,4 +36,4 @@ console.log('connected to DB!')
 )
 
 //listen to server
-app.listen(3000);
+app.listen(3002);
